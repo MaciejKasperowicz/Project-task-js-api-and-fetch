@@ -1,4 +1,33 @@
 {
-    "excursions": [],
-    "orders": []
+  "excursions": [
+    {
+      "id": 1,
+      "title": "Ogrodzieniec",
+      "description": "Zamek Ogrodzieniec – ruiny zamku leżącego na Jurze Krakowsko-Częstochowskiej, wybudowanego w systemie tzw. Orlich Gniazd.",
+      "priceAdult": 99,
+      "priceChild": 50
+    },
+    {
+      "id": 2,
+      "title": "Ojców",
+      "description": "Wieś w województwie małopolskim, w powiecie krakowskim, w gminie Skała, na terenie Wyżyny Krakowsko-Częstochowskiej.",
+      "priceAdult": 40,
+      "priceChild": 15
+    },
+    {
+      "title": "Białystok rodzinny",
+      "description": "Pałac Branickich",
+      "priceAdult": "77",
+      "priceChild": "88",
+      "id": 5
+    },
+    {
+      "title": "Władysławowo chata szereg",
+      "description": "Szeregowka nasza kurna",
+      "priceAdult": "10",
+      "priceChild": "5",
+      "id": 7
+    }
+  ],
+  "orders": []
 }
