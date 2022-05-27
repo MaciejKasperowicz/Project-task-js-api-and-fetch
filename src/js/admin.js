@@ -2,13 +2,14 @@ import './../css/admin.css';
 
 import ExcursionsAPI from './ExcursionsAPI';
 // console.log('admin');
-const excursionsAPI = new ExcursionsAPI();
+const excursionsAPI = new ExcursionsAPI("excursions");
 // excursionsAPI.loadData()
 //     .then(data => console.log(data))
 
 class Admin {
     constructor(api) {
         this.apiService = api;
+        // this.base = "excursions";
         this.excursionsItemPrototype = document.querySelector(".excursions__item--prototype");
         // this.excursionsItemPrototype = this._findElement(".excursions__item--prototype");
     }
@@ -24,7 +25,7 @@ class Admin {
         this._clearElement(excursionsUl);
         // this._createExcursion(data, excursionsUl);
         data.forEach(element => {
-            console.log(element)
+            // console.log(element)
             const excursion = this._createExcursion(element);
             excursionsUl.appendChild(excursion)
         })
@@ -34,7 +35,7 @@ class Admin {
     _createExcursion(element) {
         // data.forEach(element => {
         const excursionsItem = this.excursionsItemPrototype.cloneNode(true);
-        console.log(excursionsItem)
+        // console.log(excursionsItem)
         excursionsItem.classList.remove("excursions__item--prototype");
         const excTitleEl = excursionsItem.querySelector(".excursions__title");
         const excDescriptionEl = excursionsItem.querySelector(".excursions__description");

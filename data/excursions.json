@@ -16,7 +16,7 @@
     },
     {
       "title": "Białystok rodzinny",
-      "description": "Pałac Branickich",
+      "description": "Pałac Branickich Zamek Ogrodzieniec – ruiny zamku leżącego na Jurze Krakowsko-Częstochowskiej, wybudowanego w systemie tzw. Orlich Gniazd.",
       "priceAdult": "77",
       "priceChild": "88",
       "id": 5
@@ -27,7 +27,31 @@
       "priceAdult": "10",
       "priceChild": "5",
       "id": 7
+    },
+    {
+      "title": "Kraków dawna stolica",
+      "description": "Smok",
+      "priceAdult": "10",
+      "priceChild": "10",
+      "id": 8
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "id": 1,
+      "title": "Ogrodzieniec",
+      "priceAdult": 99,
+      "priceChild": 50,
+      "quantityAdult": 2,
+      "quantityChild": 2
+    },
+    {
+      "id": 2,
+      "title": "Ojców",
+      "priceAdult": 40,
+      "priceChild": 15,
+      "quantityAdult": 2,
+      "quantityChild": 3
+    }
+  ]
 }

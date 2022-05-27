@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JavaScript: API oraz FETCH - client, devmentor.pl</title>
 </head>
+
 <body>
 
     <section class="panel">
@@ -13,25 +15,23 @@
             <li class="excursions__item excursions__item--prototype">
                 <header class="excursions__header">
                     <h2 class="excursions__title">Ogrodzieniec</h2>
-                    <p class="excursions__description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?</p>
+                    <p class="excursions__description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet
+                        aliquam quam laboriosam quaerat temporibus dicta vitae maxime! Nemo, nobis veritatis?</p>
                 </header>
                 <form class="excursions__form">
                     <div class="excursions__field">
                         <label class="excursions__field-name">
-                            Dorosły: 99PLN x <input class="excursions__field-input" name="adults" />
+                            Dorosły: 99PLN x <input class="excursion__price-adult" name="adults" type="number" />
                         </label>
                     </div>
                     <div class="excursions__field">
                         <label class="excursions__field-name">
-                            Dziecko: 50PLN x <input class="excursions__field-input" name="children" />
+                            Dziecko: 50PLN x <input class="excursion__price-child" name="children" type="number" />
                         </label>
                     </div>
                     <div class="excursions__field excursions__field--submit">
-                        <input 
-                            class="excursions__field-input excursions__field-input--submit" 
-                            value="dodaj do zamówinia"
-                            type="submit"
-                        />
+                        <input class="excursions__field-input excursions__field-input--submit"
+                            value="dodaj do zamówinia" type="submit" />
                     </div>
                 </form>
             </li>
@@ -53,24 +53,33 @@
                     </label>
                 </div>
                 <div class="order__field order__field--submit">
-                    <input 
-                        class="order__field-input order__field-submit" 
-                        value="zamawiam"
-                        type="submit"
-                    />
+                    <input class="order__field-input order__field-submit" value="zamawiam" type="submit" />
                 </div>
             </form>
             <ul class="panel__summary summary">
                 <li class="summary__item summary__item--prototype">
                     <h3 class="summary__title">
                         <span class="summary__name">Ogrodzieniec</span>
-                        <strong class="summay__total-price">199PLN</strong> 
+                        <strong class="summay__total-price">199PLN</strong>
                         <a href="" class="summary__btn-remove" title="usuń">X</a>
                     </h3>
                     <p class="summary__prices">dorośli: 1 x 99PLN, dzieci: 2 x 50PLN</p>
+                    <div class="summary__prices">
+                        <p class="summary__price--adult">Dorośli:
+                            <span class="quantity--adult"></span>
+                            x
+                            <span class="price--adult"></span>PLN
+                        </p>
+                        <p class="summary__price--child">Dzieci:
+                            <span class="quantity--child"></span>
+                            x
+                            <span class="price--child"></span>PLN
+                        </p>
+                    </div>
                 </li>
             </ul>
         </section>
     </section>
 </body>
+
 </html>

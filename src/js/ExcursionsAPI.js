@@ -1,14 +1,15 @@
 class ExcursionsAPI {
-    constructor() {
+    constructor(dataBase) {
         // this.excursionsUrl = 'http://localhost:3000/excursions';
         // this.ordersUrl = 'http://localhost:3000/orders';
         this.url = "http://localhost:3000/";
-        this.excursions = "excursions";
-        this.orders = "orders";
+        this.dataBase = dataBase
+        // this.excursions = "excursions";
+        // this.orders = "orders";
     }
 
     loadData() {
-        return this._fetch()
+        return this._fetch(this.dataBase)
     }
 
     addData(data) {
@@ -18,7 +19,7 @@ class ExcursionsAPI {
             headers: { "Content-Type": "application/json" }
         };
         // console.log(options)
-        return this._fetch(options);
+        return this._fetch(this.dataBase, options);
     }
 
     removeData(id) {
@@ -26,7 +27,7 @@ class ExcursionsAPI {
             method: "DELETE"
         }
         // return this._fetch(options, "excursions", `/${id}`);
-        return this._fetch(options, `/${id}`);
+        return this._fetch(this.dataBase, options, `/${id}`);
 
     }
 
@@ -38,13 +39,13 @@ class ExcursionsAPI {
         };
 
         // return this._fetch(options, "excursions", `/${id}`);
-        return this._fetch(options, `/${id}`);
+        return this._fetch(this.dataBase, options, `/${id}`);
     }
 
     // _fetch(options, base = "excursions", additionalPath = "") {
-    _fetch(options, additionalPath = "") {
+    _fetch(base, options, additionalPath = "") {
         // const url = `${this.url}${base}${additionalPath}`;
-        const url = `${this.url}${this.excursions}${additionalPath}`;
+        const url = `${this.url}${base}${additionalPath}`;
         return fetch(url, options)
             .then(resp => {
                 if (resp.ok) { return resp.json(); }
