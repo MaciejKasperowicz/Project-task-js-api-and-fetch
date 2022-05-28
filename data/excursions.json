@@ -52,6 +52,14 @@
       "priceChild": 15,
       "quantityAdult": 2,
       "quantityChild": 3
+    },
+    {
+      "id": "7",
+      "title": "Władysławowo chata szereg",
+      "priceAdult": "10",
+      "priceChild": "5",
+      "quantityAdult": "2",
+      "quantityChild": "2"
     }
   ]
 }

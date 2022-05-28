@@ -11,13 +11,19 @@ class Client {
         // this.base = "excursions";
         this.excursionsItemPrototype = document.querySelector(".excursions__item--prototype");
         this.summaryItemPrototype = document.querySelector(".summary__item--prototype");
+        this.excursionsDB = "excursions";
+        this.ordersDB = "orders"
     }
     load() {
-        this.apiService.loadData()
-            .then(data => this.insert(data))
+        this.apiService.loadData(this.excursionsDB)
+            .then(data => this.insertExcursions(data))
+            .catch(err => console.error(err));
+
+        this.apiService.loadData(this.ordersDB)
+            .then(data => this.insertSummaryItems(data))
             .catch(err => console.error(err));
     }
-    insert(data) {
+    insertExcursions(data) {
         console.log(data)
         const excursionsUl = this._findElement(".excursions");
 
@@ -27,6 +33,19 @@ class Client {
             // console.log(element)
             const excursion = this._createExcursion(element);
             excursionsUl.appendChild(excursion)
+        })
+    }
+
+    insertSummaryItems(data) {
+        console.log(data)
+        const summaryUl = this._findElement(".summary");
+
+        this._clearElement(summaryUl);
+        // this._createExcursion(data, excursionsUl);
+        data.forEach(element => {
+            // console.log(element)
+            const summaryItem = this._createSummaryItem(element);
+            summaryUl.appendChild(summaryItem)
         })
     }
     _createExcursion(element) {
@@ -50,14 +69,35 @@ class Client {
         // });
     };
 
-    _findElement(selector) {
+    _findElement(selector, from = document) {
         // return document.querySelector(".excursions");
-        return document.querySelector(selector);
+        return from.querySelector(selector);
     }
 
     _clearElement(element) {
         element.innerHTML = "";
         // element.appendChild(this.excursionsItemPrototype);
+    }
+
+    _createSummaryItem(element) {
+        const summaryItem = this.summaryItemPrototype.cloneNode(true);
+        summaryItem.classList.remove("excursions__item--prototype");
+        const sumNameEl = summaryItem.querySelector(".summary__name");
+        const sumTotalPriceEl = summaryItem.querySelector(".summary__total-price");
+        const sumRemoveBtnEl = summaryItem.querySelector(".summary__btn-remove");
+        const adultQuantityEl = summaryItem.querySelector(".quantity--adult");
+        const childQuantityEl = summaryItem.querySelector(".quantity--child");
+        const priceAdultEl = summaryItem.querySelector(".price--adult");
+        const priceChildEl = summaryItem.querySelector(".price--child");
+
+        summaryItem.dataset.id = element.id;
+        sumNameEl.textContent = element.title;
+        adultQuantityEl.textContent = element.quantityAdult;
+        childQuantityEl.textContent = element.quantityChild;
+        priceAdultEl.textContent = element.priceAdult;
+        priceChildEl.textContent = element.priceChild;
+
+        return summaryItem
     }
 
     addExcursionsToSummary() {
@@ -66,7 +106,7 @@ class Client {
         excursionsUl.addEventListener("click", (e) => {
             e.preventDefault();
             const targetEl = e.target;
-            // console.log(targetEl);
+            // console.log(targetEl.elements);
             const isAddBtn = this._isElementType(targetEl, "submit");
             if (isAddBtn) {
                 // const id = this._getItemFromRoot(targetEl);
@@ -83,11 +123,18 @@ class Client {
                 console.log(isValid)
 
                 if (isValid) {
-                    const [adult, child] = inputsToFill.map(input => input.value);
-                    console.log(adult);
-                    console.log(child);
-                    this.createSummaryItem();
+                    const excID = itemRoot.dataset.id;
+                    const excTitle = this._findElement(".excursions__title", itemRoot);
+                    const excPriceAdult = this._findElement(".excursion__price-adult", itemRoot);
+                    const excPriceChild = this._findElement(".excursion__price-child", itemRoot);
+                    const [excQuantityAdult = "0", excQuantityChild = "0"] = inputsToFill.map(input => input.value);
 
+                    const data = {
+                        id: excID, title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent, quantityAdult: excQuantityAdult, quantityChild: excQuantityChild
+                    }
+                    this.apiService.addData(data, this.ordersDB)
+                        .catch(err => console.error(err))
+                        .finally(() => this.load());
                 }
             }
         })
@@ -115,28 +162,7 @@ class Client {
         }
     }
 
-    createSummaryItem(element) {
-        const summaryItem = this.summaryItemPrototype.cloneNode(true);
-        summaryItem.classList.remove("excursions__item--prototype");
-        const sumNameEl = summaryItem.querySelector(".summary__name");
-        const sumTotalPriceEl = summaryItem.querySelector(".summary__total-price");
-        const sumRemoveBtnEl = summaryItem.querySelector(".summary__btn-remove");
-        const adultQuantityEl = summaryItem.querySelector(".quantity--adult");
-        const childQuantityEl = summaryItem.querySelector(".quantity--child");
-        const priceAdultEl = summaryItem.querySelector(".price--adult");
-        const priceChildEl = summaryItem.querySelector(".price--child");
 
-        summaryItem.dataset.id = element.id;
-        sumNameEl.textContent = element.title;
-        adultQuantityEl.textContent = element.quantityAdult;
-        childQuantityEl.textContent = element.quantityChild;
-        priceAdultEl.textContent = element.priceAdult;
-        priceChildEl.textContent = element.priceChild;
-
-
-        return summaryItem
-
-    }
 
 }
 

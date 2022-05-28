@@ -8,30 +8,30 @@ class ExcursionsAPI {
         // this.orders = "orders";
     }
 
-    loadData() {
-        return this._fetch(this.dataBase)
+    loadData(database) {
+        return this._fetch(database)
     }
 
-    addData(data) {
+    addData(data, database) {
         const options = {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
         };
         // console.log(options)
-        return this._fetch(this.dataBase, options);
+        return this._fetch(database, options);
     }
 
-    removeData(id) {
+    removeData(id, database) {
         const options = {
             method: "DELETE"
         }
         // return this._fetch(options, "excursions", `/${id}`);
-        return this._fetch(this.dataBase, options, `/${id}`);
+        return this._fetch(database, options, `/${id}`);
 
     }
 
-    updateData(id, data) {
+    updateData(id, data, database) {
         const options = {
             method: "PUT",
             body: JSON.stringify(data),
@@ -39,13 +39,13 @@ class ExcursionsAPI {
         };
 
         // return this._fetch(options, "excursions", `/${id}`);
-        return this._fetch(this.dataBase, options, `/${id}`);
+        return this._fetch(database, options, `/${id}`);
     }
 
     // _fetch(options, base = "excursions", additionalPath = "") {
-    _fetch(base, options, additionalPath = "") {
+    _fetch(database, options, additionalPath = "") {
         // const url = `${this.url}${base}${additionalPath}`;
-        const url = `${this.url}${base}${additionalPath}`;
+        const url = `${this.url}${database}${additionalPath}`;
         return fetch(url, options)
             .then(resp => {
                 if (resp.ok) { return resp.json(); }

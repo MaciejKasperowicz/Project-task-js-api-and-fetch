@@ -12,9 +12,10 @@ class Admin {
         // this.base = "excursions";
         this.excursionsItemPrototype = document.querySelector(".excursions__item--prototype");
         // this.excursionsItemPrototype = this._findElement(".excursions__item--prototype");
+        this.excursionsDB = "excursions"
     }
     load() {
-        this.apiService.loadData()
+        this.apiService.loadData(this.excursionsDB)
             .then(data => this.insert(data))
             .catch(err => console.error(err));
     }
@@ -74,7 +75,7 @@ class Admin {
             const data = {
                 title: name.value, description: description.value, priceAdult: priceAdult.value, priceChild: priceChild.value
             }
-            this.apiService.addData(data)
+            this.apiService.addData(data, this.excursionsDB)
                 .catch(err => console.error(err))
                 .finally(() => this.load());
         })
@@ -88,7 +89,7 @@ class Admin {
             const isRemoveBtn = this._isElementType(targetEl, "remove");
             if (isRemoveBtn) {
                 const id = this._getItemFromRoot(targetEl);
-                this.apiService.removeData(id)
+                this.apiService.removeData(id, this.excursionsDB)
                     .catch(err => console.error(err))
                     .finally(() => this.load());
             }
@@ -124,7 +125,7 @@ class Admin {
                     const id = this._getItemFromRoot(targetEl);
                     const data = this._createDataToUpdate(targetEl);
 
-                    this.apiService.updateData(id, data)
+                    this.apiService.updateData(id, data, this.excursionsDB)
                         .catch(err => console.error(err))
                         .finally(() => {
                             targetEl.value = "edytuj";
