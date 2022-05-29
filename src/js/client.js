@@ -14,15 +14,19 @@ class Client {
         this.excursionsDB = "excursions";
         this.ordersDB = "orders"
     }
-    load() {
+    loadExcursions() {
         this.apiService.loadData(this.excursionsDB)
             .then(data => this.insertExcursions(data))
             .catch(err => console.error(err));
 
+    }
+    loadSummary() {
         this.apiService.loadData(this.ordersDB)
             .then(data => this.insertSummaryItems(data))
-            .catch(err => console.error(err));
+            .catch(err => console.error(err))
+            .finally(() => this._updateTotalPrice());
     }
+
     insertExcursions(data) {
         console.log(data)
         const excursionsUl = this._findElement(".excursions");
@@ -65,8 +69,6 @@ class Client {
         excPriceChildEl.textContent = element.priceChild;
 
         return excursionsItem
-        // excursionsUl.appendChild(excursionsItem);
-        // });
     };
 
     _findElement(selector, from = document) {
@@ -81,7 +83,7 @@ class Client {
 
     _createSummaryItem(element) {
         const summaryItem = this.summaryItemPrototype.cloneNode(true);
-        summaryItem.classList.remove("excursions__item--prototype");
+        summaryItem.classList.remove("summary__item--prototype");
         const sumNameEl = summaryItem.querySelector(".summary__name");
         const sumTotalPriceEl = summaryItem.querySelector(".summary__total-price");
         const sumRemoveBtnEl = summaryItem.querySelector(".summary__btn-remove");
@@ -90,12 +92,17 @@ class Client {
         const priceAdultEl = summaryItem.querySelector(".price--adult");
         const priceChildEl = summaryItem.querySelector(".price--child");
 
+        const totalPrice = element.quantityAdult * element.priceAdult + element.quantityChild * element.priceChild;
+
         summaryItem.dataset.id = element.id;
+        summaryItem.dataset.totalPrice = totalPrice;
+        sumRemoveBtnEl.dataset.id = element.id
         sumNameEl.textContent = element.title;
         adultQuantityEl.textContent = element.quantityAdult;
         childQuantityEl.textContent = element.quantityChild;
         priceAdultEl.textContent = element.priceAdult;
         priceChildEl.textContent = element.priceChild;
+        sumTotalPriceEl.textContent = totalPrice;
 
         return summaryItem
     }
@@ -123,22 +130,50 @@ class Client {
                 console.log(isValid)
 
                 if (isValid) {
-                    const excID = itemRoot.dataset.id;
+                    // const excID = itemRoot.dataset.id;
                     const excTitle = this._findElement(".excursions__title", itemRoot);
                     const excPriceAdult = this._findElement(".excursion__price-adult", itemRoot);
                     const excPriceChild = this._findElement(".excursion__price-child", itemRoot);
                     const [excQuantityAdult = "0", excQuantityChild = "0"] = inputsToFill.map(input => input.value);
 
                     const data = {
-                        id: excID, title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent, quantityAdult: excQuantityAdult, quantityChild: excQuantityChild
+                        title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent, quantityAdult: excQuantityAdult, quantityChild: excQuantityChild
                     }
                     this.apiService.addData(data, this.ordersDB)
                         .catch(err => console.error(err))
-                        .finally(() => this.load());
+                        .finally(() => this.loadSummary());
                 }
             }
         })
     }
+
+    removeExcursionsFromSummary() {
+        const excursionsUl = this._findElement(".summary");
+        excursionsUl.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetEl = e.target;
+            const isRemoveBtn = this._isElementType(targetEl, "remove");
+            console.log(isRemoveBtn);
+            if (isRemoveBtn) {
+                const id = targetEl.dataset.id
+                this.apiService.removeData(id, this.ordersDB)
+                    .catch(err => console.error(err))
+                    .finally(() => this.loadSummary());
+            }
+        })
+    }
+
+    _updateTotalPrice() {
+        const totalPriceEl = this._findElement(".order__total-price-value");
+        const summaryPanel = this._findElement(".summary");
+        const summaryItems = summaryPanel.querySelectorAll(".summary__item")
+        console.log(totalPriceEl);
+        const totalPrice = [...summaryItems].reduce((total, element) => total + parseFloat(element.dataset.totalPrice), 0);
+
+        totalPriceEl.textContent = totalPrice;
+    }
+
+
 
     _isElementType(element, className) {
         return element.classList.value.includes(className)
@@ -167,5 +202,7 @@ class Client {
 }
 
 const client = new Client(excursionsAPI);
-client.load();
+client.loadExcursions();
+client.loadSummary();
 client.addExcursionsToSummary();
+client.removeExcursionsFromSummary();

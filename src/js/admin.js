@@ -89,6 +89,8 @@ class Admin {
             const isRemoveBtn = this._isElementType(targetEl, "remove");
             if (isRemoveBtn) {
                 const id = this._getItemFromRoot(targetEl);
+                // const id = targetEl.dataset.id
+                // console.log(targetEl)
                 this.apiService.removeData(id, this.excursionsDB)
                     .catch(err => console.error(err))
                     .finally(() => this.load());

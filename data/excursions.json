@@ -27,13 +27,6 @@
       "priceAdult": "10",
       "priceChild": "5",
       "id": 7
-    },
-    {
-      "title": "Kraków dawna stolica",
-      "description": "Smok",
-      "priceAdult": "10",
-      "priceChild": "10",
-      "id": 8
     }
   ],
   "orders": [
@@ -43,7 +36,7 @@
       "priceAdult": 99,
       "priceChild": 50,
       "quantityAdult": 2,
-      "quantityChild": 2
+      "quantityChild": 3
     },
     {
       "id": 2,
@@ -54,12 +47,12 @@
       "quantityChild": 3
     },
     {
-      "id": "7",
-      "title": "Władysławowo chata szereg",
-      "priceAdult": "10",
-      "priceChild": "5",
+      "title": "Białystok rodzinny",
+      "priceAdult": "77",
+      "priceChild": "88",
       "quantityAdult": "2",
-      "quantityChild": "2"
+      "quantityChild": "2",
+      "id": 3
     }
   ]
 }
