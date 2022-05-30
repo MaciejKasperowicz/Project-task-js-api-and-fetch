@@ -29,7 +29,7 @@
       "id": 7
     }
   ],
-  "orders": [
+  "summary": [
     {
       "id": 1,
       "title": "Ogrodzieniec",
@@ -53,6 +53,15 @@
       "quantityAdult": "2",
       "quantityChild": "2",
       "id": 3
+    },
+    {
+      "title": "Władysławowo chata szereg",
+      "priceAdult": "10",
+      "priceChild": "5",
+      "quantityAdult": "4",
+      "quantityChild": 0,
+      "id": 4
     }
-  ]
+  ],
+  "orders": []
 }

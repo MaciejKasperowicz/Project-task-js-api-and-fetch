@@ -12,6 +12,7 @@ class Client {
         this.excursionsItemPrototype = document.querySelector(".excursions__item--prototype");
         this.summaryItemPrototype = document.querySelector(".summary__item--prototype");
         this.excursionsDB = "excursions";
+        this.summaryDB = "summary";
         this.ordersDB = "orders"
     }
     loadExcursions() {
@@ -21,7 +22,7 @@ class Client {
 
     }
     loadSummary() {
-        this.apiService.loadData(this.ordersDB)
+        this.apiService.loadData(this.summaryDB)
             .then(data => this.insertSummaryItems(data))
             .catch(err => console.error(err))
             .finally(() => this._updateTotalPrice());
@@ -52,6 +53,7 @@ class Client {
             summaryUl.appendChild(summaryItem)
         })
     }
+
     _createExcursion(element) {
         // data.forEach(element => {
         const excursionsItem = this.excursionsItemPrototype.cloneNode(true);
@@ -107,6 +109,7 @@ class Client {
         return summaryItem
     }
 
+
     addExcursionsToSummary() {
         const excursionsUl = this._findElement(".excursions");
         // console.log(excursionsUl);
@@ -126,7 +129,7 @@ class Client {
                     if (input.type === "number") return input
                 })
                 console.log(inputsToFill)
-                const isValid = this._validateInputs(inputsToFill);
+                const isValid = this._validateExcursionsInputs(inputsToFill);
                 console.log(isValid)
 
                 if (isValid) {
@@ -134,18 +137,21 @@ class Client {
                     const excTitle = this._findElement(".excursions__title", itemRoot);
                     const excPriceAdult = this._findElement(".excursion__price-adult", itemRoot);
                     const excPriceChild = this._findElement(".excursion__price-child", itemRoot);
-                    const [excQuantityAdult = "0", excQuantityChild = "0"] = inputsToFill.map(input => input.value);
+                    const [excQuantityAdult, excQuantityChild] = inputsToFill.map(input => input.value);
 
                     const data = {
-                        title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent, quantityAdult: excQuantityAdult, quantityChild: excQuantityChild
+                        title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent,
+                        quantityAdult: excQuantityAdult ? excQuantityAdult : 0,
+                        quantityChild: excQuantityChild ? excQuantityChild : 0
                     }
-                    this.apiService.addData(data, this.ordersDB)
+                    this.apiService.addData(data, this.summaryDB)
                         .catch(err => console.error(err))
                         .finally(() => this.loadSummary());
                 }
             }
         })
     }
+
 
     removeExcursionsFromSummary() {
         const excursionsUl = this._findElement(".summary");
@@ -156,7 +162,7 @@ class Client {
             console.log(isRemoveBtn);
             if (isRemoveBtn) {
                 const id = targetEl.dataset.id
-                this.apiService.removeData(id, this.ordersDB)
+                this.apiService.removeData(id, this.summaryDB)
                     .catch(err => console.error(err))
                     .finally(() => this.loadSummary());
             }
@@ -173,6 +179,30 @@ class Client {
         totalPriceEl.textContent = totalPrice;
     }
 
+    addExcursionsToOrders() {
+        const orderPanel = this._findElement(".order");
+        console.log(orderPanel.elements);
+        const [inputName, inputEmail] = orderPanel.elements;
+        const inputsToFill = [inputName, inputEmail];
+
+        orderPanel.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const isValid = inputsToFill.every(input => this._validateOrdersInputs(input.value, input));
+            console.log(isValid);
+
+        })
+    }
+
+    _validateOrdersInputs(value, input) {
+        let re;
+        if (input.name === "name") {
+            re = /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/;
+        } else {
+            re = /\S+@\S+\.\S+/;
+        }
+        return re.test(value);
+    }
+
 
 
     _isElementType(element, className) {
@@ -187,7 +217,7 @@ class Client {
         return this._findItemRoot(targetElement).dataset.id
     }
 
-    _validateInputs(inputsToFill) {
+    _validateExcursionsInputs(inputsToFill) {
         if (inputsToFill.some(input => {
             return Number.isInteger(Number(input.value)) && Number(input.value) > 0
         })) {
@@ -206,3 +236,4 @@ client.loadExcursions();
 client.loadSummary();
 client.addExcursionsToSummary();
 client.removeExcursionsFromSummary();
+client.addExcursionsToOrders();
