@@ -21,15 +21,15 @@ class Client {
             .catch(err => console.error(err));
 
     }
-    loadSummary() {
-        this.apiService.loadData(this.summaryDB)
-            .then(data => this.insertSummaryItems(data))
-            .catch(err => console.error(err))
-            .finally(() => this._updateTotalPrice());
-    }
+    // loadSummary() {
+    //     this.apiService.loadData(this.summaryDB)
+    //         .then(data => this.insertSummaryItems(data))
+    //         .catch(err => console.error(err))
+    //         .finally(() => this._updateTotalPrice());
+    // }
 
     insertExcursions(data) {
-        console.log(data)
+        // console.log(data)
         const excursionsUl = this._findElement(".excursions");
 
         this._clearElement(excursionsUl);
@@ -41,18 +41,18 @@ class Client {
         })
     }
 
-    insertSummaryItems(data) {
-        console.log(data)
-        const summaryUl = this._findElement(".summary");
+    // insertSummaryItems(data) {
+    //     console.log(data)
+    //     const summaryUl = this._findElement(".summary");
 
-        this._clearElement(summaryUl);
-        // this._createExcursion(data, excursionsUl);
-        data.forEach(element => {
-            // console.log(element)
-            const summaryItem = this._createSummaryItem(element);
-            summaryUl.appendChild(summaryItem)
-        })
-    }
+    //     this._clearElement(summaryUl);
+    //     // this._createExcursion(data, excursionsUl);
+    //     data.forEach(element => {
+    //         // console.log(element)
+    //         const summaryItem = this._createSummaryItem(element);
+    //         summaryUl.appendChild(summaryItem)
+    //     })
+    // }
 
     _createExcursion(element) {
         // data.forEach(element => {
@@ -84,6 +84,7 @@ class Client {
     }
 
     _createSummaryItem(element) {
+        console.log(element)
         const summaryItem = this.summaryItemPrototype.cloneNode(true);
         summaryItem.classList.remove("summary__item--prototype");
         const sumNameEl = summaryItem.querySelector(".summary__name");
@@ -97,8 +98,14 @@ class Client {
         const totalPrice = element.quantityAdult * element.priceAdult + element.quantityChild * element.priceChild;
 
         summaryItem.dataset.id = element.id;
+        summaryItem.dataset.title = element.title;
+        summaryItem.dataset.adultQuantity = element.quantityAdult;
+        summaryItem.dataset.childQuantity = element.quantityChild;
+        summaryItem.dataset.priceAdult = element.priceAdult;
+        summaryItem.dataset.priceChild = element.priceChild;
         summaryItem.dataset.totalPrice = totalPrice;
-        sumRemoveBtnEl.dataset.id = element.id
+        sumRemoveBtnEl.dataset.id = element.id;
+
         sumNameEl.textContent = element.title;
         adultQuantityEl.textContent = element.quantityAdult;
         childQuantityEl.textContent = element.quantityChild;
@@ -113,14 +120,19 @@ class Client {
     addExcursionsToSummary() {
         const excursionsUl = this._findElement(".excursions");
         // console.log(excursionsUl);
+        const summaryUl = this._findElement(".summary");
+        this._clearElement(summaryUl);
+        let excID = 0;
+
         excursionsUl.addEventListener("click", (e) => {
             e.preventDefault();
             const targetEl = e.target;
-            // console.log(targetEl.elements);
+            console.log(e.target)
             const isAddBtn = this._isElementType(targetEl, "submit");
             if (isAddBtn) {
                 // const id = this._getItemFromRoot(targetEl);
                 const itemRoot = this._findItemRoot(targetEl);
+                console.log(itemRoot)
                 const inputsRoot = itemRoot.querySelectorAll("input");
                 // console.log(inputsRoot)
                 // const [priceAdult, priceChild] = inputsRoot;
@@ -133,20 +145,37 @@ class Client {
                 console.log(isValid)
 
                 if (isValid) {
+                    const summaryUl = this._findElement(".summary");
                     // const excID = itemRoot.dataset.id;
                     const excTitle = this._findElement(".excursions__title", itemRoot);
                     const excPriceAdult = this._findElement(".excursion__price-adult", itemRoot);
                     const excPriceChild = this._findElement(".excursion__price-child", itemRoot);
                     const [excQuantityAdult, excQuantityChild] = inputsToFill.map(input => input.value);
 
-                    const data = {
-                        title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent,
+                    const element = {
+                        id: excID++,
+                        title: excTitle.textContent,
+                        priceAdult: excPriceAdult.textContent,
+                        priceChild: excPriceChild.textContent,
                         quantityAdult: excQuantityAdult ? excQuantityAdult : 0,
                         quantityChild: excQuantityChild ? excQuantityChild : 0
                     }
-                    this.apiService.addData(data, this.summaryDB)
-                        .catch(err => console.error(err))
-                        .finally(() => this.loadSummary());
+
+                    const summaryItem = this._createSummaryItem(element);
+                    summaryUl.appendChild(summaryItem);
+                    // excQuantityAdult.value = "";
+                    // excQuantityChild.value = "";
+                    inputsToFill.map(input => input.value = "")
+                    this._updateTotalPrice();
+
+                    // const data = {
+                    //     title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent,
+                    //     quantityAdult: excQuantityAdult ? excQuantityAdult : 0,
+                    //     quantityChild: excQuantityChild ? excQuantityChild : 0
+                    // }
+                    // this.apiService.addData(data, this.summaryDB)
+                    //     .catch(err => console.error(err))
+                    //     .finally(() => this.loadSummary());
                 }
             }
         })
@@ -159,12 +188,16 @@ class Client {
             e.preventDefault();
             const targetEl = e.target;
             const isRemoveBtn = this._isElementType(targetEl, "remove");
-            console.log(isRemoveBtn);
+            // console.log(isRemoveBtn);
             if (isRemoveBtn) {
                 const id = targetEl.dataset.id
-                this.apiService.removeData(id, this.summaryDB)
-                    .catch(err => console.error(err))
-                    .finally(() => this.loadSummary());
+                // const excursionToRemove = targetEl.parentElement.parentElement;
+                const excursionToRemove = excursionsUl.querySelector(`[data-id='${id}']`);
+                // console.log(excursionToRemove)
+                excursionsUl.removeChild(excursionToRemove);
+                // this.apiService.removeData(id, this.summaryDB)
+                //     .catch(err => console.error(err))
+                //     .finally(() => this.loadSummary());
             }
         })
     }
@@ -172,8 +205,8 @@ class Client {
     _updateTotalPrice() {
         const totalPriceEl = this._findElement(".order__total-price-value");
         const summaryPanel = this._findElement(".summary");
-        const summaryItems = summaryPanel.querySelectorAll(".summary__item")
-        console.log(totalPriceEl);
+        const summaryItems = summaryPanel.querySelectorAll(".summary__item");
+        // console.log(summaryItems)
         const totalPrice = [...summaryItems].reduce((total, element) => total + parseFloat(element.dataset.totalPrice), 0);
 
         totalPriceEl.textContent = totalPrice;
@@ -181,16 +214,46 @@ class Client {
 
     addExcursionsToOrders() {
         const orderPanel = this._findElement(".order");
-        console.log(orderPanel.elements);
         const [inputName, inputEmail] = orderPanel.elements;
         const inputsToFill = [inputName, inputEmail];
 
+
         orderPanel.addEventListener("submit", (e) => {
             e.preventDefault();
+            const totalPrice = this._findElement(".order__total-price-value").textContent;
+            if (!totalPrice) return
             const isValid = inputsToFill.every(input => this._validateOrdersInputs(input.value, input));
             console.log(isValid);
+            if (isValid) {
+                const summaryUl = this._findElement(".summary");
+                const summaryItems = document.querySelectorAll(".summary__item");
+
+                summaryItems.forEach(item => {
+                    const data = this._createDataForOrders(item)
+
+                    this.apiService.addData(data, this.ordersDB)
+                        .catch(err => console.error(err));
+                });
+
+                this._clearPanelForm(summaryUl, inputsToFill);
+            }
 
         })
+    }
+
+    _clearPanelForm(summaryUl, inputsToFill) {
+        summaryUl.innerHTML = "";
+        inputsToFill.forEach(input => input.value = "")
+        this._updateTotalPrice();
+    }
+
+    _createDataForOrders(item) {
+        const { title, adultQuantity, childQuantity, priceAdult, priceChild, totalPrice } = item.dataset;
+
+        const data = {
+            title, adultQuantity, childQuantity, priceAdult, priceChild, totalPrice
+        }
+        return data
     }
 
     _validateOrdersInputs(value, input) {
@@ -233,7 +296,7 @@ class Client {
 
 const client = new Client(excursionsAPI);
 client.loadExcursions();
-client.loadSummary();
+// client.loadSummary();
 client.addExcursionsToSummary();
 client.removeExcursionsFromSummary();
 client.addExcursionsToOrders();

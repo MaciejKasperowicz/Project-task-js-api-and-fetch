@@ -38,6 +38,10 @@ ul {
     width: 30%;
 }
 
+/* .summary__item--prototype{
+    display: none;
+} */
+
 .uploader, .order {
     border-bottom: 1px solid #bbb;
     margin-bottom: 20px;

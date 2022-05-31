@@ -29,39 +29,105 @@
       "id": 7
     }
   ],
-  "summary": [
+  "orders": [
     {
-      "id": 1,
-      "title": "Ogrodzieniec",
-      "priceAdult": 99,
-      "priceChild": 50,
-      "quantityAdult": 2,
-      "quantityChild": 3
-    },
-    {
-      "id": 2,
       "title": "Ojców",
-      "priceAdult": 40,
-      "priceChild": 15,
-      "quantityAdult": 2,
-      "quantityChild": 3
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 1
     },
     {
-      "title": "Białystok rodzinny",
-      "priceAdult": "77",
-      "priceChild": "88",
-      "quantityAdult": "2",
-      "quantityChild": "2",
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 2
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "4",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "160",
       "id": 3
     },
     {
+      "title": "Ojców",
+      "adultQuantity": "4",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "160",
+      "id": 4
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 5
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 6
+    },
+    {
+      "title": "Białystok rodzinny",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "77",
+      "priceChild": "88",
+      "totalPrice": "154",
+      "id": 7
+    },
+    {
+      "title": "Ogrodzieniec",
+      "adultQuantity": "2222",
+      "childQuantity": "0",
+      "priceAdult": "99",
+      "priceChild": "50",
+      "totalPrice": "219978",
+      "id": 8
+    },
+    {
+      "title": "Białystok rodzinny",
+      "adultQuantity": "55555",
+      "childQuantity": "0",
+      "priceAdult": "77",
+      "priceChild": "88",
+      "totalPrice": "4277735",
+      "id": 9
+    },
+    {
+      "title": "Białystok rodzinny",
+      "adultQuantity": "22222",
+      "childQuantity": "0",
+      "priceAdult": "77",
+      "priceChild": "88",
+      "totalPrice": "1711094",
+      "id": 10
+    },
+    {
       "title": "Władysławowo chata szereg",
+      "adultQuantity": "555",
+      "childQuantity": "0",
       "priceAdult": "10",
       "priceChild": "5",
-      "quantityAdult": "4",
-      "quantityChild": 0,
-      "id": 4
+      "totalPrice": "5550",
+      "id": 11
     }
-  ],
-  "orders": []
+  ]
 }
