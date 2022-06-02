@@ -23,10 +23,17 @@
     },
     {
       "title": "Władysławowo chata szereg",
-      "description": "Szeregowka nasza kurna",
+      "description": "Szeregowka",
       "priceAdult": "10",
       "priceChild": "5",
       "id": 7
+    },
+    {
+      "title": "Paryż",
+      "description": "Francja",
+      "priceAdult": "25",
+      "priceChild": "20",
+      "id": 8
     }
   ],
   "orders": [
@@ -128,6 +135,78 @@
       "priceChild": "5",
       "totalPrice": "5550",
       "id": 11
+    },
+    {
+      "title": "Władysławowo chata szereg",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "10",
+      "priceChild": "5",
+      "totalPrice": "20",
+      "id": 12
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 13
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 14
+    },
+    {
+      "title": "Ogrodzieniec",
+      "adultQuantity": "0",
+      "childQuantity": "2",
+      "priceAdult": "99",
+      "priceChild": "50",
+      "totalPrice": "100",
+      "id": 15
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 16
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 17
+    },
+    {
+      "title": "Majroka",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "400",
+      "priceChild": "230",
+      "totalPrice": "800",
+      "id": 18
+    },
+    {
+      "title": "Ojców",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
+      "id": 19
     }
   ]
 }

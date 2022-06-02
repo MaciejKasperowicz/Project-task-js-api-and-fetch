@@ -4,8 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // importuję odpowiedni plugin
 module.exports = {
     entry: {
-        client: './src/js/client.js',
-        admin: './src/js/admin.js'
+        // client: './src/js/client.js',
+        // admin: './src/js/admin.js'
+        appAdmin: './src/js/appAdmin.js',
+        appClient: './src/js/appClient.js'
     },
     // definiuje pliki wejściowe
     // posiadające swoje identyfikatory [chunks]
@@ -46,7 +48,8 @@ module.exports = {
             // wskazuje plik źródłowy
             filename: 'index.html',
             // określan nazwę dla pliku
-            chunks: ['client'],
+            // chunks: ['client'],
+            chunks: ['appClient'],
             // wskazuje plik do podpięcia
         }),
         new HtmlWebpackPlugin({
@@ -54,7 +57,7 @@ module.exports = {
             // wskazuje plik źródłowy
             filename: 'admin.html',
             // określan nazwę dla pliku
-            chunks: ['admin'],
+            chunks: ['appAdmin'],
             // wskazuje plik do podpięcia
         })
     ]

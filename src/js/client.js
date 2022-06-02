@@ -1,90 +1,14 @@
-// import { cli } from 'webpack';
-import './../css/client.css';
+import Common from "./common";
 
-import ExcursionsAPI from './ExcursionsAPI';
-// console.log('client');
-const excursionsAPI = new ExcursionsAPI("excursions");
 
-class Client {
+export default class Client extends Common {
     constructor(api) {
-        this.apiService = api;
-        // this.base = "excursions";
-        this.excursionsItemPrototype = document.querySelector(".excursions__item--prototype");
+        super(api)
         this.summaryItemPrototype = document.querySelector(".summary__item--prototype");
-        this.excursionsDB = "excursions";
-        this.summaryDB = "summary";
         this.ordersDB = "orders"
-    }
-    loadExcursions() {
-        this.apiService.loadData(this.excursionsDB)
-            .then(data => this.insertExcursions(data))
-            .catch(err => console.error(err));
-
-    }
-    // loadSummary() {
-    //     this.apiService.loadData(this.summaryDB)
-    //         .then(data => this.insertSummaryItems(data))
-    //         .catch(err => console.error(err))
-    //         .finally(() => this._updateTotalPrice());
-    // }
-
-    insertExcursions(data) {
-        // console.log(data)
-        const excursionsUl = this._findElement(".excursions");
-
-        this._clearElement(excursionsUl);
-        // this._createExcursion(data, excursionsUl);
-        data.forEach(element => {
-            // console.log(element)
-            const excursion = this._createExcursion(element);
-            excursionsUl.appendChild(excursion)
-        })
-    }
-
-    // insertSummaryItems(data) {
-    //     console.log(data)
-    //     const summaryUl = this._findElement(".summary");
-
-    //     this._clearElement(summaryUl);
-    //     // this._createExcursion(data, excursionsUl);
-    //     data.forEach(element => {
-    //         // console.log(element)
-    //         const summaryItem = this._createSummaryItem(element);
-    //         summaryUl.appendChild(summaryItem)
-    //     })
-    // }
-
-    _createExcursion(element) {
-        // data.forEach(element => {
-        const excursionsItem = this.excursionsItemPrototype.cloneNode(true);
-        // console.log(excursionsItem)
-        excursionsItem.classList.remove("excursions__item--prototype");
-        const excTitleEl = excursionsItem.querySelector(".excursions__title");
-        const excDescriptionEl = excursionsItem.querySelector(".excursions__description");
-        const excPriceAdultEl = excursionsItem.querySelector(".excursion__price-adult");
-        const excPriceChildEl = excursionsItem.querySelector(".excursion__price-child");
-
-        excursionsItem.dataset.id = element.id;
-        excTitleEl.textContent = element.title;
-        excDescriptionEl.textContent = element.description;
-        excPriceAdultEl.textContent = element.priceAdult;
-        excPriceChildEl.textContent = element.priceChild;
-
-        return excursionsItem
-    };
-
-    _findElement(selector, from = document) {
-        // return document.querySelector(".excursions");
-        return from.querySelector(selector);
-    }
-
-    _clearElement(element) {
-        element.innerHTML = "";
-        // element.appendChild(this.excursionsItemPrototype);
     }
 
     _createSummaryItem(element) {
-        console.log(element)
         const summaryItem = this.summaryItemPrototype.cloneNode(true);
         summaryItem.classList.remove("summary__item--prototype");
         const sumNameEl = summaryItem.querySelector(".summary__name");
@@ -118,38 +42,28 @@ class Client {
 
 
     addExcursionsToSummary() {
-        const excursionsUl = this._findElement(".excursions");
-        // console.log(excursionsUl);
-        const summaryUl = this._findElement(".summary");
-        this._clearElement(summaryUl);
+        const excursionsUl = this.findElement(".excursions");
+        const summaryUl = this.findElement(".summary");
+        this.clearElement(summaryUl);
         let excID = 0;
 
         excursionsUl.addEventListener("click", (e) => {
             e.preventDefault();
             const targetEl = e.target;
-            console.log(e.target)
-            const isAddBtn = this._isElementType(targetEl, "submit");
+            const isAddBtn = this.isElementType(targetEl, "submit");
             if (isAddBtn) {
-                // const id = this._getItemFromRoot(targetEl);
-                const itemRoot = this._findItemRoot(targetEl);
-                console.log(itemRoot)
+                const itemRoot = this.findItemRoot(targetEl);
                 const inputsRoot = itemRoot.querySelectorAll("input");
-                // console.log(inputsRoot)
-                // const [priceAdult, priceChild] = inputsRoot;
-                // console.log(priceAdult, priceChild)
                 const inputsToFill = [...inputsRoot].filter(input => {
                     if (input.type === "number") return input
                 })
-                console.log(inputsToFill)
                 const isValid = this._validateExcursionsInputs(inputsToFill);
-                console.log(isValid)
 
                 if (isValid) {
-                    const summaryUl = this._findElement(".summary");
-                    // const excID = itemRoot.dataset.id;
-                    const excTitle = this._findElement(".excursions__title", itemRoot);
-                    const excPriceAdult = this._findElement(".excursion__price-adult", itemRoot);
-                    const excPriceChild = this._findElement(".excursion__price-child", itemRoot);
+                    const summaryUl = this.findElement(".summary");
+                    const excTitle = this.findElement(".excursions__title", itemRoot);
+                    const excPriceAdult = this.findElement(".excursion__price-adult", itemRoot);
+                    const excPriceChild = this.findElement(".excursion__price-child", itemRoot);
                     const [excQuantityAdult, excQuantityChild] = inputsToFill.map(input => input.value);
 
                     const element = {
@@ -163,19 +77,8 @@ class Client {
 
                     const summaryItem = this._createSummaryItem(element);
                     summaryUl.appendChild(summaryItem);
-                    // excQuantityAdult.value = "";
-                    // excQuantityChild.value = "";
-                    inputsToFill.map(input => input.value = "")
+                    this.clearInputs(inputsToFill);
                     this._updateTotalPrice();
-
-                    // const data = {
-                    //     title: excTitle.textContent, priceAdult: excPriceAdult.textContent, priceChild: excPriceChild.textContent,
-                    //     quantityAdult: excQuantityAdult ? excQuantityAdult : 0,
-                    //     quantityChild: excQuantityChild ? excQuantityChild : 0
-                    // }
-                    // this.apiService.addData(data, this.summaryDB)
-                    //     .catch(err => console.error(err))
-                    //     .finally(() => this.loadSummary());
                 }
             }
         })
@@ -183,49 +86,41 @@ class Client {
 
 
     removeExcursionsFromSummary() {
-        const excursionsUl = this._findElement(".summary");
+        const excursionsUl = this.findElement(".summary");
         excursionsUl.addEventListener("click", (e) => {
             e.preventDefault();
             const targetEl = e.target;
             const isRemoveBtn = this._isElementType(targetEl, "remove");
-            // console.log(isRemoveBtn);
             if (isRemoveBtn) {
                 const id = targetEl.dataset.id
-                // const excursionToRemove = targetEl.parentElement.parentElement;
                 const excursionToRemove = excursionsUl.querySelector(`[data-id='${id}']`);
-                // console.log(excursionToRemove)
                 excursionsUl.removeChild(excursionToRemove);
-                // this.apiService.removeData(id, this.summaryDB)
-                //     .catch(err => console.error(err))
-                //     .finally(() => this.loadSummary());
             }
         })
     }
 
     _updateTotalPrice() {
-        const totalPriceEl = this._findElement(".order__total-price-value");
-        const summaryPanel = this._findElement(".summary");
+        const totalPriceEl = this.findElement(".order__total-price-value");
+        const summaryPanel = this.findElement(".summary");
         const summaryItems = summaryPanel.querySelectorAll(".summary__item");
-        // console.log(summaryItems)
         const totalPrice = [...summaryItems].reduce((total, element) => total + parseFloat(element.dataset.totalPrice), 0);
 
         totalPriceEl.textContent = totalPrice;
     }
 
     addExcursionsToOrders() {
-        const orderPanel = this._findElement(".order");
+        const orderPanel = this.findElement(".order");
         const [inputName, inputEmail] = orderPanel.elements;
         const inputsToFill = [inputName, inputEmail];
 
 
         orderPanel.addEventListener("submit", (e) => {
             e.preventDefault();
-            const totalPrice = this._findElement(".order__total-price-value").textContent;
+            const totalPrice = this.findElement(".order__total-price-value").textContent;
             if (!totalPrice) return
             const isValid = inputsToFill.every(input => this._validateOrdersInputs(input.value, input));
-            console.log(isValid);
             if (isValid) {
-                const summaryUl = this._findElement(".summary");
+                const summaryUl = this.findElement(".summary");
                 const summaryItems = document.querySelectorAll(".summary__item");
 
                 summaryItems.forEach(item => {
@@ -267,19 +162,6 @@ class Client {
     }
 
 
-
-    _isElementType(element, className) {
-        return element.classList.value.includes(className)
-    }
-
-    _findItemRoot(targetElement) {
-        return targetElement.parentElement.parentElement.parentElement
-    }
-
-    _getItemFromRoot(targetElement) {
-        return this._findItemRoot(targetElement).dataset.id
-    }
-
     _validateExcursionsInputs(inputsToFill) {
         if (inputsToFill.some(input => {
             return Number.isInteger(Number(input.value)) && Number(input.value) > 0
@@ -289,14 +171,4 @@ class Client {
             return false
         }
     }
-
-
-
 }
-
-const client = new Client(excursionsAPI);
-client.loadExcursions();
-// client.loadSummary();
-client.addExcursionsToSummary();
-client.removeExcursionsFromSummary();
-client.addExcursionsToOrders();
