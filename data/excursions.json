@@ -38,21 +38,21 @@
   ],
   "orders": [
     {
-      "title": "Ojców",
-      "adultQuantity": "2",
+      "title": "Białystok rodzinny",
+      "adultQuantity": "4",
       "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "80",
+      "priceAdult": "77",
+      "priceChild": "88",
+      "totalPrice": "308",
       "id": 1
     },
     {
       "title": "Ojców",
-      "adultQuantity": "2",
+      "adultQuantity": "4",
       "childQuantity": "0",
       "priceAdult": "40",
       "priceChild": "15",
-      "totalPrice": "80",
+      "totalPrice": "160",
       "id": 2
     },
     {
@@ -65,21 +65,21 @@
       "id": 3
     },
     {
-      "title": "Ojców",
-      "adultQuantity": "4",
+      "title": "Władysławowo chata szereg",
+      "adultQuantity": "6",
       "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "160",
+      "priceAdult": "10",
+      "priceChild": "5",
+      "totalPrice": "60",
       "id": 4
     },
     {
-      "title": "Ojców",
-      "adultQuantity": "2",
+      "title": "Władysławowo chata szereg",
+      "adultQuantity": "6",
       "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "80",
+      "priceAdult": "10",
+      "priceChild": "5",
+      "totalPrice": "60",
       "id": 5
     },
     {
@@ -92,58 +92,40 @@
       "id": 6
     },
     {
-      "title": "Białystok rodzinny",
+      "title": "Ojców",
       "adultQuantity": "2",
       "childQuantity": "0",
-      "priceAdult": "77",
-      "priceChild": "88",
-      "totalPrice": "154",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "80",
       "id": 7
     },
     {
       "title": "Ogrodzieniec",
-      "adultQuantity": "2222",
+      "adultQuantity": "2",
       "childQuantity": "0",
       "priceAdult": "99",
       "priceChild": "50",
-      "totalPrice": "219978",
+      "totalPrice": "198",
       "id": 8
     },
     {
-      "title": "Białystok rodzinny",
-      "adultQuantity": "55555",
+      "title": "Ojców",
+      "adultQuantity": "4",
       "childQuantity": "0",
-      "priceAdult": "77",
-      "priceChild": "88",
-      "totalPrice": "4277735",
+      "priceAdult": "40",
+      "priceChild": "15",
+      "totalPrice": "160",
       "id": 9
     },
     {
       "title": "Białystok rodzinny",
-      "adultQuantity": "22222",
+      "adultQuantity": "4",
       "childQuantity": "0",
       "priceAdult": "77",
       "priceChild": "88",
-      "totalPrice": "1711094",
+      "totalPrice": "308",
       "id": 10
-    },
-    {
-      "title": "Władysławowo chata szereg",
-      "adultQuantity": "555",
-      "childQuantity": "0",
-      "priceAdult": "10",
-      "priceChild": "5",
-      "totalPrice": "5550",
-      "id": 11
-    },
-    {
-      "title": "Władysławowo chata szereg",
-      "adultQuantity": "2",
-      "childQuantity": "0",
-      "priceAdult": "10",
-      "priceChild": "5",
-      "totalPrice": "20",
-      "id": 12
     },
     {
       "title": "Ojców",
@@ -152,6 +134,24 @@
       "priceAdult": "40",
       "priceChild": "15",
       "totalPrice": "80",
+      "id": 11
+    },
+    {
+      "title": "Ogrodzieniec",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "99",
+      "priceChild": "50",
+      "totalPrice": "198",
+      "id": 12
+    },
+    {
+      "title": "Ogrodzieniec",
+      "adultQuantity": "2",
+      "childQuantity": "0",
+      "priceAdult": "99",
+      "priceChild": "50",
+      "totalPrice": "198",
       "id": 13
     },
     {
@@ -162,51 +162,6 @@
       "priceChild": "15",
       "totalPrice": "80",
       "id": 14
-    },
-    {
-      "title": "Ogrodzieniec",
-      "adultQuantity": "0",
-      "childQuantity": "2",
-      "priceAdult": "99",
-      "priceChild": "50",
-      "totalPrice": "100",
-      "id": 15
-    },
-    {
-      "title": "Ojców",
-      "adultQuantity": "2",
-      "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "80",
-      "id": 16
-    },
-    {
-      "title": "Ojców",
-      "adultQuantity": "2",
-      "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "80",
-      "id": 17
-    },
-    {
-      "title": "Majroka",
-      "adultQuantity": "2",
-      "childQuantity": "0",
-      "priceAdult": "400",
-      "priceChild": "230",
-      "totalPrice": "800",
-      "id": 18
-    },
-    {
-      "title": "Ojców",
-      "adultQuantity": "2",
-      "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "80",
-      "id": 19
     }
   ]
 }

@@ -114,12 +114,16 @@ export default class Client extends Common {
         const inputsToFill = [inputName, inputEmail];
 
 
+
         orderPanel.addEventListener("submit", (e) => {
             e.preventDefault();
             const totalPrice = this.findElement(".order__total-price-value").textContent;
+            const inputNameValue = inputName.value;
+            const inputEmailValue = inputEmail.value;
             if (!totalPrice) return
             const isValid = inputsToFill.every(input => this._validateOrdersInputs(input.value, input));
             if (isValid) {
+
                 const summaryUl = this.findElement(".summary");
                 const summaryItems = document.querySelectorAll(".summary__item");
 
@@ -130,11 +134,47 @@ export default class Client extends Common {
                         .catch(err => console.error(err));
                 });
 
+                this._showModal(this._getModalElements(), totalPrice, inputNameValue, inputEmailValue)
                 this._clearPanelForm(summaryUl, inputsToFill);
+
             }
 
         })
     }
+    _getModalElements() {
+        const modal = document.querySelector(".modal");
+        const modalBtn = document.querySelector(".closeBtn");
+        const modalName = document.querySelector(".modal__name");
+        const modalAddress = document.querySelector(".modal__address");
+        const modalPrice = document.querySelector(".modal__price");
+
+        modalBtn.addEventListener("click", (e) => this._closeModal(e, modal, modalBtn));
+        window.addEventListener("click", (e) => this._closeModal(e, modal, modalBtn));
+
+        return {
+            modal,
+            modalBtn,
+            modalName,
+            modalAddress,
+            modalPrice
+        }
+    }
+
+
+    _showModal({ modal, modalName, modalAddress, modalPrice }, totalPrice, inputNameValue, inputEmailValue) {
+        modal.style.display = "block";
+        modalName.textContent = inputNameValue;
+        modalAddress.textContent = inputEmailValue;
+        modalPrice.textContent = totalPrice;
+    }
+    _closeModal(e, modal, modalBtn) {
+        if (e.target === modalBtn || e.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+
 
     _clearPanelForm(summaryUl, inputsToFill) {
         summaryUl.innerHTML = "";
