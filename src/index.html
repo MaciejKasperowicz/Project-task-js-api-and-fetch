@@ -11,14 +11,35 @@
 <body>
     <!-- The Modal -->
     <div id="myModal" class="modal">
-        <!-- Modal content -->
+
         <div class="modal__content">
             <p class="modal__info">Dziękujemy <span class="modal__name"></span> za złożenie zamówienia o wartości
                 <span class="modal__price"></span>
                 PLN. Szczegóły zamówienia zostały wysłane na adres e-mail:
                 <span class="modal__address"></span>
+                <span class="closeBtn">&times;</span>.
             </p>
-            <span class="closeBtn">&times;</span>
+            <!-- <ul class="modal__orders excursions">
+                <li class="order__item order__item--prototype">
+                    <header class="order__header">
+                        <strong class="order__title">Ojców </strong>
+                        <strong class="order__price">80</strong>PLN
+                    </header>
+
+                    <div class="order__adult">
+                        Liczba dorosłych: <span class="order__adult--quantity">2</span> x <span
+                            class="order__adult--price">
+                            40</span> PLN
+                    </div>
+                    <div class="order__child">
+                        Liczba dzieci: <span class="order__child--quantity">0</span> x <span
+                            class="order__child--price">
+                            15</span> PLN
+                    </div>
+                </li>
+            </ul> -->
+
+
         </div>
     </div>
 
@@ -79,7 +100,7 @@
                         <strong class="summary__total-price-currency">PLN</strong>
                         <a href="" class="summary__btn-remove" title="usuń">X</a>
                     </h3>
-                    <!-- <p class="summary__prices">dorośli: 1 x 99PLN, dzieci: 2 x 50PLN</p> -->
+
                     <div class="summary__prices">
                         <p class="summary__price--adult">Dorośli:
                             <span class="quantity--adult"></span>

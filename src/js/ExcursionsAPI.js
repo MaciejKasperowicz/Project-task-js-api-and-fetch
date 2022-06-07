@@ -22,7 +22,7 @@ class ExcursionsAPI {
         return this._fetch(database, options);
     }
 
-    removeData(id, database) {
+    removeData(database, id = "") {
         const options = {
             method: "DELETE"
         }

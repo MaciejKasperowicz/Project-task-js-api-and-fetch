@@ -11,9 +11,8 @@ function init() {
     client.loadExcursions();
     client.addExcursionsToSummary();
     client.removeExcursionsFromSummary();
+    // client.removePreviousOrders();
     client.addExcursionsToOrders();
-    // client.handleModal();
-
     console.log(client)
 
 }

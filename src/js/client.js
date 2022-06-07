@@ -5,6 +5,7 @@ export default class Client extends Common {
     constructor(api) {
         super(api)
         this.summaryItemPrototype = document.querySelector(".summary__item--prototype");
+        this.orderItemPrototype = document.querySelector(".order__item--prototype");
         this.ordersDB = "orders"
     }
 
@@ -42,7 +43,7 @@ export default class Client extends Common {
 
 
     addExcursionsToSummary() {
-        const excursionsUl = this.findElement(".excursions");
+        const excursionsUl = this.findElement(".panel__excursions");
         const summaryUl = this.findElement(".summary");
         this.clearElement(summaryUl);
         let excID = 0;
@@ -90,7 +91,7 @@ export default class Client extends Common {
         excursionsUl.addEventListener("click", (e) => {
             e.preventDefault();
             const targetEl = e.target;
-            const isRemoveBtn = this._isElementType(targetEl, "remove");
+            const isRemoveBtn = this.isElementType(targetEl, "remove");
             if (isRemoveBtn) {
                 const id = targetEl.dataset.id
                 const excursionToRemove = excursionsUl.querySelector(`[data-id='${id}']`);
@@ -127,20 +128,114 @@ export default class Client extends Common {
                 const summaryUl = this.findElement(".summary");
                 const summaryItems = document.querySelectorAll(".summary__item");
 
+                this.apiService.loadData(this.ordersDB)
+                    .then((data) => console.log(data))
+
+
                 summaryItems.forEach(item => {
                     const data = this._createDataForOrders(item)
 
                     this.apiService.addData(data, this.ordersDB)
+                        .then(() => {
+                            this._showModal(this._getModalElements(), totalPrice, inputNameValue, inputEmailValue)
+                            this._clearPanelForm(summaryUl, inputsToFill);
+                        })
                         .catch(err => console.error(err));
                 });
 
-                this._showModal(this._getModalElements(), totalPrice, inputNameValue, inputEmailValue)
-                this._clearPanelForm(summaryUl, inputsToFill);
 
             }
 
         })
     }
+
+    // removePreviousOrders() {
+    //     this.apiService.loadData(this.ordersDB)
+    //         .then(data => {
+    //             if (data.length) {
+    //                 const urls = data.map(item => {
+    //                     const url = `http://localhost:3000/orders/${item.id}`
+    //                     return url
+    //                 })
+
+    //                 return urls
+    //             }
+    //         })
+    //         .then(urls => {
+    //             if (urls) {
+    //                 const options = {
+    //                     method: "DELETE"
+    //                 }
+    //                 Promise.all(urls.map(url => fetch(url, options)))
+    //                 // .then(resp => {
+    //                 //     if (resp.ok) { return resp.json(); }
+    //                 //     return Promise.reject(resp);
+    //                 // })
+    //             }
+    //         })
+    //         .catch(err => console.error(err))
+
+    // }
+
+    // clearOrders(data) {
+    //     // data.forEach(element => {
+    //     //     this.apiService.removeData(this.ordersDB, element.id)
+    //     //         .catch(err => console.error(err));
+    //     // })
+    //     const urls = data.map(item => {
+    //         const url = `http://localhost:3000/orders/${item.id}`
+    //         return url
+    //     })
+    //     const options = {
+    //         method: "DELETE"
+    //     }
+    //     console.log(urls)
+    //     Promise.all(urls.map(url => fetch(url, options)))
+    // }
+
+
+    loadOrders() {
+        this.apiService.loadData(this.ordersDB)
+            .then(data => {
+                if (data) {
+                    this.insertOrders(data)
+                }
+            })
+            // .then(data => console.log(data))
+            .catch(err => console.error(err));
+    }
+
+    insertOrders(data) {
+        const ordersUl = this.findElement(".modal__orders");
+
+        this.clearElement(ordersUl);
+        data.forEach(element => {
+            const order = this.createOrder(element);
+            ordersUl.appendChild(order)
+        })
+    }
+
+    createOrder(element) {
+        const orderItem = this.orderItemPrototype.cloneNode(true);
+        orderItem.classList.remove("order__item--prototype");
+
+        const orderTitle = this.findElement(".order__title", orderItem);
+        const orderPrice = this.findElement(".order__price", orderItem);
+        const orderAdultQuantity = this.findElement(".order__adult--quantity", orderItem);
+        const orderAdultPrice = this.findElement(".order__adult--price", orderItem);
+        const orderChildQuantity = this.findElement(".order__child--quantity", orderItem);
+        const orderChildPrice = this.findElement(".order__child--price", orderItem);
+
+        orderTitle.textContent = element.title;
+        orderPrice.textContent = element.totalPrice;
+        orderAdultQuantity.textContent = element.adultQuantity;
+        orderAdultPrice.textContent = element.priceAdult;
+        orderChildQuantity.textContent = element.childQuantity;
+        orderChildPrice.textContent = element.priceChild;
+
+        return orderItem
+    }
+
     _getModalElements() {
         const modal = document.querySelector(".modal");
         const modalBtn = document.querySelector(".closeBtn");
@@ -170,6 +265,12 @@ export default class Client extends Common {
     _closeModal(e, modal, modalBtn) {
         if (e.target === modalBtn || e.target === modal) {
             modal.style.display = "none";
+            // this.apiService.loadData(this.ordersDB)
+            //     .then(data => {
+            //         this.clearOrders(data)
+            //     })
+            //     .catch(err => console.error(err))
+            // this.removePreviousOrders();
         }
     }
 

@@ -11,7 +11,7 @@ export default class Common {
             .catch(err => console.error(err));
     }
     insertExcursions(data) {
-        const excursionsUl = this.findElement(".excursions");
+        const excursionsUl = this.findElement(".panel__excursions");
 
         this.clearElement(excursionsUl);
         data.forEach(element => {

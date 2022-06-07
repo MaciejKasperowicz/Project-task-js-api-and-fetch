@@ -66,6 +66,7 @@ ul {
   /* Modal Content */
   .modal__content {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     position: absolute;
@@ -75,7 +76,26 @@ ul {
     background-color: rgb(67, 145, 155);
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 80%;
+  }
+
+  .modal__orders{
+    width: 80%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .order__item{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 30%;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border: 1px solid rgb(0, 255, 198);
+    margin-bottom: 5px;
   }
 
   .modal__address, .modal__price, .modal__name{
@@ -85,10 +105,13 @@ ul {
   
   /* The Close Button */
   .closeBtn {
-    color: #001D6E;
-    float: right;
+    /* float: right; */
+    position: absolute;
+    top: 10px;
+    right: 20px;
     font-size: 40px;
     font-weight: bold;
+    color: #001D6E;
     cursor: pointer;
     transition: color 0.5s, transform 0.5s;
   }

@@ -29,7 +29,7 @@ export default class Admin extends Common {
             const isRemoveBtn = this.isElementType(targetEl, "remove");
             if (isRemoveBtn) {
                 const id = this.getItemFromRoot(targetEl);
-                this.apiService.removeData(id, this.excursionsDB)
+                this.apiService.removeData(this.excursionsDB, id)
                     .catch(err => console.error(err))
                     .finally(() => this.loadExcursions());
             }
@@ -108,5 +108,4 @@ export default class Admin extends Common {
     }
 
 }
-
 
