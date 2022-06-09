@@ -9,40 +9,43 @@ export default class Client extends Common {
         this.ordersDB = "orders"
     }
 
-    _createSummaryItem(element) {
-        const summaryItem = this.summaryItemPrototype.cloneNode(true);
-        summaryItem.classList.remove("summary__item--prototype");
-        const sumNameEl = summaryItem.querySelector(".summary__name");
-        const sumTotalPriceEl = summaryItem.querySelector(".summary__total-price");
-        const sumRemoveBtnEl = summaryItem.querySelector(".summary__btn-remove");
-        const adultQuantityEl = summaryItem.querySelector(".quantity--adult");
-        const childQuantityEl = summaryItem.querySelector(".quantity--child");
-        const priceAdultEl = summaryItem.querySelector(".price--adult");
-        const priceChildEl = summaryItem.querySelector(".price--child");
+    removePreviousOrders() {
+        this.apiService.loadData(this.ordersDB)
+            .then(data => {
+                if (data.length) {
+                    const ids = data.map(item => item.id);
 
-        const totalPrice = element.quantityAdult * element.priceAdult + element.quantityChild * element.priceChild;
+                    const createPromise = (id) => {
+                        const options = {
+                            method: "DELETE"
+                        }
+                        return fetch(`http://localhost:3000/orders/${id}`, options)
+                            .then(resp => {
+                                if (resp.ok) { return resp.json(); }
+                                return Promise.reject(resp);
+                            });
+                    }
+                    // Promise.all(ids.map(id => {
+                    //     return fetch(`http://localhost:3000/orders/${id}`, options)
+                    //         .then(resp => {
+                    //             if (resp.ok) {
+                    //                 console.log(resp)
+                    //                 return resp.json();
+                    //             }
+                    //             return Promise.reject(resp);
+                    //         })
+                    // }
 
-        summaryItem.dataset.id = element.id;
-        summaryItem.dataset.title = element.title;
-        summaryItem.dataset.adultQuantity = element.quantityAdult;
-        summaryItem.dataset.childQuantity = element.quantityChild;
-        summaryItem.dataset.priceAdult = element.priceAdult;
-        summaryItem.dataset.priceChild = element.priceChild;
-        summaryItem.dataset.totalPrice = totalPrice;
-        sumRemoveBtnEl.dataset.id = element.id;
-
-        sumNameEl.textContent = element.title;
-        adultQuantityEl.textContent = element.quantityAdult;
-        childQuantityEl.textContent = element.quantityChild;
-        priceAdultEl.textContent = element.priceAdult;
-        priceChildEl.textContent = element.priceChild;
-        sumTotalPriceEl.textContent = totalPrice;
-
-        return summaryItem
+                    // ))
+                    Promise.all(ids.map(id => createPromise(id)))
+                    // .then(resp => resp.json())
+                } return
+            })
     }
 
 
-    addExcursionsToSummary() {
+
+    addExcursionsToOrders() {
         const excursionsUl = this.findElement(".panel__excursions");
         const summaryUl = this.findElement(".summary");
         this.clearElement(summaryUl);
@@ -61,39 +64,114 @@ export default class Client extends Common {
                 const isValid = this._validateExcursionsInputs(inputsToFill);
 
                 if (isValid) {
-                    const summaryUl = this.findElement(".summary");
+
+                    // const summaryUl = this.findElement(".summary");
                     const excTitle = this.findElement(".excursions__title", itemRoot);
                     const excPriceAdult = this.findElement(".excursion__price-adult", itemRoot);
                     const excPriceChild = this.findElement(".excursion__price-child", itemRoot);
                     const [excQuantityAdult, excQuantityChild] = inputsToFill.map(input => input.value);
 
+                    const totalPrice = excQuantityAdult * excPriceAdult.textContent + excQuantityChild * excPriceChild.textContent;
+
                     const element = {
-                        id: excID++,
+                        // id: excID++,
                         title: excTitle.textContent,
                         priceAdult: excPriceAdult.textContent,
                         priceChild: excPriceChild.textContent,
                         quantityAdult: excQuantityAdult ? excQuantityAdult : 0,
-                        quantityChild: excQuantityChild ? excQuantityChild : 0
+                        quantityChild: excQuantityChild ? excQuantityChild : 0,
+                        totalPrice
                     }
+                    console.log(totalPrice)
+                    console.log(element)
+                    // const summaryItem = this._createSummaryItem(element);
+                    // summaryUl.appendChild(summaryItem);
 
-                    const summaryItem = this._createSummaryItem(element);
-                    summaryUl.appendChild(summaryItem);
-                    this.clearInputs(inputsToFill);
-                    this._updateTotalPrice();
+                    this.apiService.addData(element, this.ordersDB)
+                        .then(() => this.loadOrders())
+                        .catch(err => console.error(err))
+                        .then(() => this.clearInputs(inputsToFill))
+                    // .then(() => this._updateTotalPrice());
+
+                    // this.clearInputs(inputsToFill);
+                    // this._updateTotalPrice();
                 }
             }
         })
     }
 
+    loadOrders() {
+        this.apiService.loadData(this.ordersDB)
+            .then(data => {
+                if (data) {
+                    this.insertOrders(data)
+                }
+            })
+            .then(() => this._updateTotalPrice())
+            .catch(err => console.error(err));
+    }
 
-    removeExcursionsFromSummary() {
+    insertOrders(data) {
+        // const ordersUl = this.findElement(".modal__orders");
+        const summaryUl = this.findElement(".summary");
+
+        // this.clearElement(ordersUl);
+        this.clearElement(summaryUl)
+        data.forEach(element => {
+            // const order = this.createOrder(element);
+            const order = this._createSummaryItem(element)
+            // ordersUl.appendChild(order)
+            summaryUl.appendChild(order)
+        })
+    }
+
+    _createSummaryItem(element) {
+        const summaryItem = this.summaryItemPrototype.cloneNode(true);
+        summaryItem.classList.remove("summary__item--prototype");
+        const sumNameEl = summaryItem.querySelector(".summary__name");
+        const sumTotalPriceEl = summaryItem.querySelector(".summary__total-price");
+        const sumRemoveBtnEl = summaryItem.querySelector(".summary__btn-remove");
+        const adultQuantityEl = summaryItem.querySelector(".quantity--adult");
+        const childQuantityEl = summaryItem.querySelector(".quantity--child");
+        const priceAdultEl = summaryItem.querySelector(".price--adult");
+        const priceChildEl = summaryItem.querySelector(".price--child");
+
+        // const totalPrice = element.quantityAdult * element.priceAdult + element.quantityChild * element.priceChild;
+
+        summaryItem.dataset.id = element.id;
+        summaryItem.dataset.title = element.title;
+        summaryItem.dataset.adultQuantity = element.quantityAdult;
+        summaryItem.dataset.childQuantity = element.quantityChild;
+        summaryItem.dataset.priceAdult = element.priceAdult;
+        summaryItem.dataset.priceChild = element.priceChild;
+        // summaryItem.dataset.totalPrice = totalPrice;
+        summaryItem.dataset.totalPrice = element.totalPrice;
+        sumRemoveBtnEl.dataset.id = element.id;
+
+        sumNameEl.textContent = element.title;
+        adultQuantityEl.textContent = element.quantityAdult;
+        childQuantityEl.textContent = element.quantityChild;
+        priceAdultEl.textContent = element.priceAdult;
+        priceChildEl.textContent = element.priceChild;
+        // sumTotalPriceEl.textContent = totalPrice;
+        sumTotalPriceEl.textContent = element.totalPrice;
+
+        return summaryItem
+    }
+
+
+
+    removeExcursionsFromOrders() {
         const excursionsUl = this.findElement(".summary");
         excursionsUl.addEventListener("click", (e) => {
             e.preventDefault();
             const targetEl = e.target;
             const isRemoveBtn = this.isElementType(targetEl, "remove");
             if (isRemoveBtn) {
-                const id = targetEl.dataset.id
+                const id = targetEl.dataset.id;
+                this.apiService.removeData(this.ordersDB, id)
+                    .catch(err => console.error(err))
+                    .finally(() => this.loadOrders());
                 const excursionToRemove = excursionsUl.querySelector(`[data-id='${id}']`);
                 excursionsUl.removeChild(excursionToRemove);
             }
@@ -101,6 +179,7 @@ export default class Client extends Common {
     }
 
     _updateTotalPrice() {
+
         const totalPriceEl = this.findElement(".order__total-price-value");
         const summaryPanel = this.findElement(".summary");
         const summaryItems = summaryPanel.querySelectorAll(".summary__item");
@@ -109,12 +188,48 @@ export default class Client extends Common {
         totalPriceEl.textContent = totalPrice;
     }
 
-    addExcursionsToOrders() {
+    // addExcursionsToOrders() {
+    //     const orderPanel = this.findElement(".order");
+    //     const [inputName, inputEmail] = orderPanel.elements;
+    //     const inputsToFill = [inputName, inputEmail];
+
+
+
+    //     orderPanel.addEventListener("submit", (e) => {
+    //         e.preventDefault();
+    //         const totalPrice = this.findElement(".order__total-price-value").textContent;
+    //         const inputNameValue = inputName.value;
+    //         const inputEmailValue = inputEmail.value;
+    //         if (!totalPrice) return
+    //         const isValid = inputsToFill.every(input => this._validateOrdersInputs(input.value, input));
+    //         if (isValid) {
+
+    //             const summaryUl = this.findElement(".summary");
+    //             const summaryItems = document.querySelectorAll(".summary__item");
+
+
+
+
+
+    //             // summaryItems.forEach(item => {
+    //             //     const data = this._createDataForOrders(item)
+
+    //             //     this.apiService.addData(data, this.ordersDB)
+    //             //         .then(() => {
+    //             //             this._showModal(this._getModalElements(), totalPrice, inputNameValue, inputEmailValue)
+    //             //             this._clearPanelForm(summaryUl, inputsToFill);
+    //             //         })
+    //             //         .catch(err => console.error(err));
+    //             // });
+
+    //         }
+    //     })
+    // }
+
+    confirmTheOrder() {
         const orderPanel = this.findElement(".order");
         const [inputName, inputEmail] = orderPanel.elements;
         const inputsToFill = [inputName, inputEmail];
-
-
 
         orderPanel.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -126,94 +241,15 @@ export default class Client extends Common {
             if (isValid) {
 
                 const summaryUl = this.findElement(".summary");
-                const summaryItems = document.querySelectorAll(".summary__item");
-
-                this.apiService.loadData(this.ordersDB)
-                    .then((data) => console.log(data))
-
-
-                summaryItems.forEach(item => {
-                    const data = this._createDataForOrders(item)
-
-                    this.apiService.addData(data, this.ordersDB)
-                        .then(() => {
-                            this._showModal(this._getModalElements(), totalPrice, inputNameValue, inputEmailValue)
-                            this._clearPanelForm(summaryUl, inputsToFill);
-                        })
-                        .catch(err => console.error(err));
-                });
-
 
             }
-
         })
     }
 
-    // removePreviousOrders() {
-    //     this.apiService.loadData(this.ordersDB)
-    //         .then(data => {
-    //             if (data.length) {
-    //                 const urls = data.map(item => {
-    //                     const url = `http://localhost:3000/orders/${item.id}`
-    //                     return url
-    //                 })
-
-    //                 return urls
-    //             }
-    //         })
-    //         .then(urls => {
-    //             if (urls) {
-    //                 const options = {
-    //                     method: "DELETE"
-    //                 }
-    //                 Promise.all(urls.map(url => fetch(url, options)))
-    //                 // .then(resp => {
-    //                 //     if (resp.ok) { return resp.json(); }
-    //                 //     return Promise.reject(resp);
-    //                 // })
-    //             }
-    //         })
-    //         .catch(err => console.error(err))
-
-    // }
-
-    // clearOrders(data) {
-    //     // data.forEach(element => {
-    //     //     this.apiService.removeData(this.ordersDB, element.id)
-    //     //         .catch(err => console.error(err));
-    //     // })
-    //     const urls = data.map(item => {
-    //         const url = `http://localhost:3000/orders/${item.id}`
-    //         return url
-    //     })
-    //     const options = {
-    //         method: "DELETE"
-    //     }
-    //     console.log(urls)
-    //     Promise.all(urls.map(url => fetch(url, options)))
-    // }
 
 
-    loadOrders() {
-        this.apiService.loadData(this.ordersDB)
-            .then(data => {
-                if (data) {
-                    this.insertOrders(data)
-                }
-            })
-            // .then(data => console.log(data))
-            .catch(err => console.error(err));
-    }
 
-    insertOrders(data) {
-        const ordersUl = this.findElement(".modal__orders");
 
-        this.clearElement(ordersUl);
-        data.forEach(element => {
-            const order = this.createOrder(element);
-            ordersUl.appendChild(order)
-        })
-    }
 
     createOrder(element) {
         const orderItem = this.orderItemPrototype.cloneNode(true);
@@ -265,12 +301,6 @@ export default class Client extends Common {
     _closeModal(e, modal, modalBtn) {
         if (e.target === modalBtn || e.target === modal) {
             modal.style.display = "none";
-            // this.apiService.loadData(this.ordersDB)
-            //     .then(data => {
-            //         this.clearOrders(data)
-            //     })
-            //     .catch(err => console.error(err))
-            // this.removePreviousOrders();
         }
     }
 

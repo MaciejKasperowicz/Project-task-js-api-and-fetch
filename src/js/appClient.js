@@ -9,10 +9,11 @@ function init() {
 
     const client = new Client(excursionsAPI);
     client.loadExcursions();
-    client.addExcursionsToSummary();
-    client.removeExcursionsFromSummary();
-    // client.removePreviousOrders();
+    client.removePreviousOrders();
     client.addExcursionsToOrders();
+    client.removeExcursionsFromOrders();
+    // client.removePreviousOrders();
+    // client.addExcursionsToOrders();
     console.log(client)
 
 }

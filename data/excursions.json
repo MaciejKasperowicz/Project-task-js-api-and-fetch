@@ -22,8 +22,8 @@
       "id": 5
     },
     {
-      "title": "Władysławowo chata szereg",
-      "description": "Szeregowka",
+      "title": "Władysławowo",
+      "description": "Plaza",
       "priceAdult": "10",
       "priceChild": "5",
       "id": 7
@@ -50,105 +50,5 @@
       "id": 10
     }
   ],
-  "orders": [
-    {
-      "title": "Ogrodzieniec",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "99",
-      "priceChild": "50",
-      "totalPrice": "495",
-      "id": 1
-    },
-    {
-      "title": "Ojców",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "200",
-      "id": 2
-    },
-    {
-      "title": "Białystok rodzinny",
-      "adultQuantity": "4",
-      "childQuantity": "0",
-      "priceAdult": "77",
-      "priceChild": "88",
-      "totalPrice": "308",
-      "id": 3
-    },
-    {
-      "title": "Ojców",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "40",
-      "priceChild": "15",
-      "totalPrice": "200",
-      "id": 4
-    },
-    {
-      "title": "Białystok rodzinny",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "77",
-      "priceChild": "88",
-      "totalPrice": "385",
-      "id": 5
-    },
-    {
-      "title": "Madryt",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "500",
-      "priceChild": "200",
-      "totalPrice": "2500",
-      "id": 6
-    },
-    {
-      "title": "Nowy Jork",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "5000",
-      "priceChild": "2000",
-      "totalPrice": "25000",
-      "id": 7
-    },
-    {
-      "title": "Paryż",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "100",
-      "priceChild": "12",
-      "totalPrice": "500",
-      "id": 8
-    },
-    {
-      "title": "Władysławowo chata szereg",
-      "adultQuantity": "0",
-      "childQuantity": "5",
-      "priceAdult": "10",
-      "priceChild": "5",
-      "totalPrice": "25",
-      "id": 9
-    },
-    {
-      "title": "Białystok rodzinny",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "77",
-      "priceChild": "88",
-      "totalPrice": "385",
-      "id": 10
-    },
-    {
-      "title": "Władysławowo chata szereg",
-      "adultQuantity": "5",
-      "childQuantity": "0",
-      "priceAdult": "10",
-      "priceChild": "5",
-      "totalPrice": "50",
-      "id": 11
-    }
-  ]
+  "orders": []
 }
