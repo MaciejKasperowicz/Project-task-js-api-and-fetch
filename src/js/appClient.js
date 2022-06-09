@@ -12,8 +12,7 @@ function init() {
     client.removePreviousOrders();
     client.addExcursionsToOrders();
     client.removeExcursionsFromOrders();
-    // client.removePreviousOrders();
-    // client.addExcursionsToOrders();
+    client.confirmTheOrder();
     console.log(client)
 
 }
