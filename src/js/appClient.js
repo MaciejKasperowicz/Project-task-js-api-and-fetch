@@ -13,6 +13,5 @@ function init() {
     client.addExcursionsToOrders();
     client.removeExcursionsFromOrders();
     client.confirmTheOrder();
-    console.log(client)
 
 }

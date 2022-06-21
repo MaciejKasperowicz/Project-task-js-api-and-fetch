@@ -19,7 +19,6 @@ function init() {
 
     const client = new Client(excursionsAPI);
     client.loadExcursions();
-    // client.loadSummary();
     client.addExcursionsToSummary();
     client.removeExcursionsFromSummary();
     client.addExcursionsToOrders();

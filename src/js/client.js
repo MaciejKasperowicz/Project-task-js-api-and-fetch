@@ -22,25 +22,23 @@ export default class Client extends Common {
                         return fetch(`http://localhost:3000/orders/${id}`, options)
                             .then(resp => {
                                 if (resp.ok) {
-                                    console.log(resp)
+                                    // console.log(resp)
                                     return resp.json();
                                 }
                                 return Promise.reject(resp);
                             });
                     }
                     Promise.all(ids.map(id => createPromise(id)))
-
+                    this.orders = this.apiService.loadData(this.ordersDB);
                 } return
             })
     }
-
 
 
     addExcursionsToOrders() {
         const excursionsUl = this.findElement(".panel__excursions");
         const summaryUl = this.findElement(".summary");
         this.clearElement(summaryUl);
-        let excID = 0;
 
         excursionsUl.addEventListener("click", (e) => {
             e.preventDefault();
@@ -56,7 +54,6 @@ export default class Client extends Common {
 
                 if (isValid) {
 
-                    // const summaryUl = this.findElement(".summary");
                     const excTitle = this.findElement(".excursions__title", itemRoot);
                     const excPriceAdult = this.findElement(".excursion__price-adult", itemRoot);
                     const excPriceChild = this.findElement(".excursion__price-child", itemRoot);
@@ -65,7 +62,6 @@ export default class Client extends Common {
                     const totalPrice = excQuantityAdult * excPriceAdult.textContent + excQuantityChild * excPriceChild.textContent;
 
                     const element = {
-                        // id: excID++,
                         title: excTitle.textContent,
                         priceAdult: excPriceAdult.textContent,
                         priceChild: excPriceChild.textContent,
@@ -73,19 +69,11 @@ export default class Client extends Common {
                         quantityChild: excQuantityChild ? excQuantityChild : 0,
                         totalPrice
                     }
-                    console.log(totalPrice)
-                    console.log(element)
-                    // const summaryItem = this._createSummaryItem(element);
-                    // summaryUl.appendChild(summaryItem);
 
                     this.apiService.addData(element, this.ordersDB)
                         .then(() => this.loadOrders())
                         .catch(err => console.error(err))
                         .then(() => this.clearInputs(inputsToFill))
-                    // .then(() => this._updateTotalPrice());
-
-                    // this.clearInputs(inputsToFill);
-                    // this._updateTotalPrice();
                 }
             }
         })
@@ -115,19 +103,13 @@ export default class Client extends Common {
     _createSummaryItem(element) {
         const summaryItem = this.summaryItemPrototype.cloneNode(true);
         summaryItem.classList.remove("summary__item--prototype");
-        // const sumNameEl = summaryItem.querySelector(".summary__name");
+
         const sumNameEl = this.findElement(".summary__name", summaryItem);
-        // const sumTotalPriceEl = summaryItem.querySelector(".summary__total-price");
         const sumTotalPriceEl = this.findElement(".summary__total-price", summaryItem)
-        // const sumRemoveBtnEl = summaryItem.querySelector(".summary__btn-remove");
         const sumRemoveBtnEl = this.findElement(".summary__btn-remove", summaryItem);
-        // const adultQuantityEl = summaryItem.querySelector(".quantity--adult");
         const adultQuantityEl = this.findElement(".quantity--adult", summaryItem);
-        // const childQuantityEl = summaryItem.querySelector(".quantity--child");
         const childQuantityEl = this.findElement(".quantity--child", summaryItem);
-        // const priceAdultEl = summaryItem.querySelector(".price--adult");
         const priceAdultEl = this.findElement(".price--adult", summaryItem);
-        // const priceChildEl = summaryItem.querySelector(".price--child");
         const priceChildEl = this.findElement(".price--child", summaryItem);
 
 
@@ -163,7 +145,6 @@ export default class Client extends Common {
                 this.apiService.removeData(this.ordersDB, id)
                     .catch(err => console.error(err))
                     .finally(() => this.loadOrders());
-                // const excursionToRemove = excursionsUl.querySelector(`[data-id='${id}']`);
                 const excursionToRemove = this.findElement(`[data-id='${id}']`, excursionsUl);
                 excursionsUl.removeChild(excursionToRemove);
             }
@@ -201,29 +182,16 @@ export default class Client extends Common {
                 this._clearPanelForm(summaryUl, inputsToFill);
 
                 const { modal, modalBtn } = this._getModalElements();
-                // [modalBtn, window].forEach(item => item.addEventListener("click", () => this._closeModal(modal)))
                 modalBtn.addEventListener("click", () => this._closeModal(modal))
             }
         })
     }
 
-
-
-
-
-
-
-
     _getModalElements() {
-        // const modal = document.querySelector(".modal");
         const modal = this.findElement(".modal");
-        // const modalBtn = document.querySelector(".closeBtn");
         const modalBtn = this.findElement(".closeBtn");
-        // const modalName = document.querySelector(".modal__name");
         const modalName = this.findElement(".modal__name");
-        // const modalAddress = document.querySelector(".modal__address");
         const modalAddress = this.findElement(".modal__address");
-        // const modalPrice = document.querySelector(".modal__price");
         const modalPrice = this.findElement(".modal__price");
 
         return {
@@ -242,13 +210,7 @@ export default class Client extends Common {
         modalAddress.textContent = inputEmailValue;
         modalPrice.textContent = totalPrice;
     }
-    // _closeModal(modal, e, modalBtn) {
     _closeModal(modal) {
-        // if (e.target === modalBtn
-        //     // || e.target === modal
-        // ) {
-        //     modal.style.display = "none";
-        // }
         modal.style.display = "none";
     }
 
@@ -283,36 +245,4 @@ export default class Client extends Common {
             return false
         }
     }
-
-    // createOrder(element) {
-    //     const orderItem = this.orderItemPrototype.cloneNode(true);
-    //     orderItem.classList.remove("order__item--prototype");
-
-    //     const orderTitle = this.findElement(".order__title", orderItem);
-    //     const orderPrice = this.findElement(".order__price", orderItem);
-    //     const orderAdultQuantity = this.findElement(".order__adult--quantity", orderItem);
-    //     const orderAdultPrice = this.findElement(".order__adult--price", orderItem);
-    //     const orderChildQuantity = this.findElement(".order__child--quantity", orderItem);
-    //     const orderChildPrice = this.findElement(".order__child--price", orderItem);
-
-    //     orderTitle.textContent = element.title;
-    //     orderPrice.textContent = element.totalPrice;
-    //     orderAdultQuantity.textContent = element.adultQuantity;
-    //     orderAdultPrice.textContent = element.priceAdult;
-    //     orderChildQuantity.textContent = element.childQuantity;
-    //     orderChildPrice.textContent = element.priceChild;
-
-    //     return orderItem
-    // }
-
-
-
-    // _createDataForOrders(item) {
-    //     const { title, adultQuantity, childQuantity, priceAdult, priceChild, totalPrice } = item.dataset;
-
-    //     const data = {
-    //         title, adultQuantity, childQuantity, priceAdult, priceChild, totalPrice
-    //     }
-    //     return data
-    // }
 }

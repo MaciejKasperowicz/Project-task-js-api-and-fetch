@@ -13,6 +13,4 @@ function init() {
     admin.addExcursions();
     admin.removeExcursions();
     admin.updateExcursions();
-
-    console.log(admin)
 }

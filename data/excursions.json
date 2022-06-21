@@ -15,7 +15,7 @@
       "priceChild": 15
     },
     {
-      "title": "Białystok rodzinny",
+      "title": "Białystok Podlasie",
       "description": "Pałac Branickich",
       "priceAdult": "77",
       "priceChild": "88",
@@ -27,13 +27,6 @@
       "priceAdult": "10",
       "priceChild": "5",
       "id": 7
-    },
-    {
-      "title": "Paryż",
-      "description": "Francja",
-      "priceAdult": "100",
-      "priceChild": "12",
-      "id": 8
     },
     {
       "title": "Nowy Jork",
@@ -48,6 +41,13 @@
       "priceAdult": "500",
       "priceChild": "200",
       "id": 10
+    },
+    {
+      "title": "Cypr",
+      "description": "Nissi",
+      "priceAdult": "400",
+      "priceChild": "300",
+      "id": 11
     }
   ],
   "orders": []
